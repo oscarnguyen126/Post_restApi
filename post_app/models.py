@@ -1,5 +1,4 @@
 from django.db import models
-from uuid import UUID
 from uuid import uuid4 as UUID4
 from django.utils.timezone import now as djnow
 from account.models import Account
@@ -39,9 +38,9 @@ class PostStatus(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self):
-        self.updated_at = djnow()
-        super().save(self)
+    # def save(self):
+    #     self.updated_at = djnow()
+    #     super().save(self)
 
 
 class Category(models.Model):
