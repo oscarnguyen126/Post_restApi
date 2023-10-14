@@ -104,9 +104,9 @@ class Post(models.Model):
                                blank=True,
                                null=True,
                                help_text="description")
-    thumbnail = models.ImageField()
-    meta_keyword = models.CharField(max_length=256)
-    type = models.ForeignKey(Category, related_name='post_type',
+    thumbnail = models.ImageField(null=True)
+    meta_keyword = models.CharField(null=True, blank=True, max_length=256)
+    type = models.ForeignKey(Category, related_name='post',
                              null=True,
                              blank=True,
                              on_delete=models.SET_NULL,
@@ -151,6 +151,6 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self):
-        self.updated_at = djnow()
-        super().save(self)
+    # def save(self):
+    #     self.updated_at = djnow()
+    #     super().save(self)

@@ -1,10 +1,23 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import CategorySerializer, PostStatusSerializer
+from .serializers import CategorySerializer, PostStatusSerializer, PostSerializer
 from .models import Category, Post, PostStatus
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+
+
+class PostList(APIView):
+    def get(self, request):
+        return Response(PostSerializer(Post.objects.all(), many=True).data)
+    
+
+    def post(self, request):
+        serializer = PostSerializer(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
 
 
 class PostStatusList(APIView):
