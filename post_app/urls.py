@@ -1,12 +1,14 @@
 from django.contrib import admin
 from django.urls import path
-from .views import CategoryList, CategoryDetail, PostStatusList, PostStatusDetail, PostList
+from . import views
 
 
 urlpatterns = [
-    path('categories/', CategoryList.as_view(), name='categories'),
-    path('categories/<slug:id>', CategoryDetail.as_view(), name='categories detail'),
-    path('poststatus/', PostStatusList.as_view(), name='post status'),
-    path('poststatus/<slug:id>', PostStatusDetail.as_view(), name='post status detail'),
-    path('post/', PostList.as_view(), name='post'),
+    path('categories/', views.CategoryList.as_view(), name='categories'),
+    path('categories/<slug:id>', views.CategoryDetail.as_view(), name='categories_detail'),
+    path('poststatus/', views.PostStatusList.as_view(), name='post_status'),
+    path('poststatus/<slug:id>', views.PostStatusDetail.as_view(), name='post_status_detail'),
+    path('post/', views.PostList.as_view(), name='post'),
+    path('post/<slug:id>', views.PostDetail.as_view(), name='post_detail'),
+    path('search/', views.PostSearch.as_view(), name='search'),
 ]

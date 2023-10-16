@@ -2,6 +2,7 @@ from django.db import models
 from uuid import uuid4 as UUID4
 from django.utils.timezone import now as djnow
 from account.models import Account
+from django.template.defaultfilters import slugify
 
 
 class PostStatus(models.Model):
@@ -93,13 +94,13 @@ class Post(models.Model):
                             null=True,
                             blank=True,
                             help_text="name")
-    title = models.CharField(max_length=256,
+    title = models.CharField(max_length=55,
                              unique=True,
                              null=True,
                              blank=True,
                              editable=True,
                              help_text="title")
-    description = models.TextField(max_length=2048,
+    description = models.CharField(max_length=155,
                                editable=True,
                                blank=True,
                                null=True,
@@ -125,7 +126,7 @@ class Post(models.Model):
                                editable=True,
                                blank=True,
                                null=True,
-                               help_text="short content")
+                               help_text="content")
     slug = models.SlugField(default="", null=False)
     created_by = models.ForeignKey(Account, related_name="create_post",
                                    null=True,
@@ -147,6 +148,9 @@ class Post(models.Model):
         (0, 'no'),
         (1, 'yes'),
     )
+
+    class Meta:
+        ordering = ["-created_at"]
 
     def __str__(self):
         return self.title
