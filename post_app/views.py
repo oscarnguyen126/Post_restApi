@@ -6,6 +6,8 @@ from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from rest_framework.pagination import LimitOffsetPagination
+
 
 
 class PostSearch(APIView):
@@ -21,9 +23,12 @@ class PostSearch(APIView):
         return JsonResponse(serializer.data, safe=False)
 
 
-class PostList(APIView):
+class PostList(APIView, LimitOffsetPagination):
     def get(self, request):
-        return Response(PostSerializer(Post.objects.all(), many=True).data)
+        posts = Post.objects.all()
+        results = self.paginate_queryset(posts, request, view=self)
+        serializer = PostSerializer(results, many=True)
+        return self.get_paginated_response(serializer.data)
     
 
     def post(self, request):
